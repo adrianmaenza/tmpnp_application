@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:tmpnp_application/screens/auth/registration_screen.dart';
+import 'package:tmpnp_application/util/constants.dart';
 
 import '../../widgets/pnp_button.dart';
 import '../../widgets/pnp_input.dart';
 import '../../widgets/pnp_oulined_button.dart';
+import '../home_screen.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key, required this.title});
@@ -31,43 +33,84 @@ class _LoginScreenState extends State<LoginScreen> {
           child: Padding(
             padding: const EdgeInsets.all(15.0),
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.end,
               children: [
-                Center(
-                    child: Padding(
-                      padding: const EdgeInsets.all(40.0),
-                      child: Column(
+                TextButton(
+                  onPressed: () {
+                    showDialog(
+                        context: context,
+                        builder: (context) => SimpleDialog(
                         children: [
-                          Image.asset('assets/tm-click-n-collect-logo.png'),
-                          const SizedBox(
-                            height: 30,
-                          ),
-                          const Text(
-                            "Login to your account",
-                            style:
-                            TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                          ),
-                          const SizedBox(
-                            height: 20,
-                          ),
-                          const Text(
-                            "We just sent you a temporary login code. Please check your email.",
-                            style: TextStyle(fontSize: 14),
-                            textAlign: TextAlign.center,
-                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(20),
+                            child: Column(
+                              children: [
+                                const Text(
+                                  'Welcome',
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    color: Color(primaryColor),
+                                    fontSize: 20
+                                  ),
+                                ),
+                                const SizedBox(height: 20,),
+                                PnpButton('Yes', onPressed: () => {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                          const HomeScreen()))
+                                }),
+                                TextButton(
+                                    onPressed: () => {},
+                                    child: const Text('No'))
+                              ],
+                            ),
+                          )
                         ],
+                      ));
+                  },
+                  child: const Text('Skip'),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(40.0),
+                  child: Column(
+                    children: [
+                      Image.asset('assets/tm-click-n-collect-logo.png'),
+                      const SizedBox(
+                        height: 30,
                       ),
-                    )),
+                      const Text(
+                        "Login to your account",
+                        style: TextStyle(
+                            fontSize: 20, fontWeight: FontWeight.bold),
+                      ),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      const Text(
+                        "We just sent you a temporary login code. Please check your email.",
+                        style: TextStyle(fontSize: 14),
+                        textAlign: TextAlign.center,
+                      ),
+                    ],
+                  ),
+                ),
                 const SizedBox(
                   height: 20,
                 ),
                 const Form(
                     child: Column(
-                      children: [
-                        PnpInput(label: 'Email',),
-                        PnpInput(label: 'Password',),
-                        PnpButton('Login'),
-                      ],
-                    )),
+                  children: [
+                    PnpInput(
+                      label: 'Email',
+                    ),
+                    PnpInput(
+                      label: 'Password',
+                    ),
+                    PnpButton('Login'),
+                  ],
+                )),
                 Column(
                   children: [
                     const SizedBox(
@@ -83,9 +126,16 @@ class _LoginScreenState extends State<LoginScreen> {
                     const SizedBox(
                       height: 20,
                     ),
-                    PnpOutlinedButton('Create Profile', onPressed: () => {
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => const RegistrationScreen()))
-                    },),
+                    PnpOutlinedButton(
+                      'Create Profile',
+                      onPressed: () => {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    const RegistrationScreen()))
+                      },
+                    ),
                   ],
                 )
               ],

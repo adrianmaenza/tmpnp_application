@@ -3,8 +3,9 @@ import 'package:tmpnp_application/util/constants.dart';
 
 class PnpButton extends StatelessWidget {
   final String text;
+  final VoidCallback? onPressed;
 
-  const PnpButton(this.text, {super.key});
+  const PnpButton(this.text, {super.key, this.onPressed});
 
   @override
   Widget build(BuildContext context) {
