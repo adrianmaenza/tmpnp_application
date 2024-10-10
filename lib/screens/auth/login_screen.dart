@@ -53,6 +53,8 @@ class _LoginScreenState extends State<LoginScreen> {
                                     fontSize: 20
                                   ),
                                 ),
+                                const SizedBox(height: 20),
+                                const Text('Are you 18 or older?', style: TextStyle(color: Color(primaryColor)),),
                                 const SizedBox(height: 20,),
                                 PnpButton('Yes', onPressed: () => {
                                   Navigator.push(
@@ -60,9 +62,25 @@ class _LoginScreenState extends State<LoginScreen> {
                                       MaterialPageRoute(
                                           builder: (context) =>
                                           const HomeScreen()))
-                                }),
+                                  },
+                                ),
                                 TextButton(
-                                    onPressed: () => {},
+                                    onPressed: () {
+                                      Navigator.pop(context);
+                                      final snackBar = SnackBar(
+                                        content: const Text('Sorry, you cannot use this app'),
+                                        action: SnackBarAction(
+                                          label: 'Okay',
+                                          onPressed: () {
+                                            // Some code to undo the change.
+                                          },
+                                        ),
+                                      );
+
+                                      // Find the ScaffoldMessenger in the widget tree
+                                      // and use it to show a SnackBar.
+                                      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                                    },
                                     child: const Text('No'))
                               ],
                             ),
@@ -99,16 +117,16 @@ class _LoginScreenState extends State<LoginScreen> {
                 const SizedBox(
                   height: 20,
                 ),
-                const Form(
+                Form(
                     child: Column(
                   children: [
-                    PnpInput(
+                    const PnpInput(
                       label: 'Email',
                     ),
-                    PnpInput(
+                    const PnpInput(
                       label: 'Password',
                     ),
-                    PnpButton('Login'),
+                    PnpButton('Login', onPressed: () => {},),
                   ],
                 )),
                 Column(

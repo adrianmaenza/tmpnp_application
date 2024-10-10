@@ -10,7 +10,7 @@ class PnpButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
-      onPressed: () => (),
+      onPressed: onPressed,
       style: ElevatedButton.styleFrom(
           backgroundColor: const Color(primaryColor),
           minimumSize: const Size.fromHeight(45)),

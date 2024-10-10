@@ -16,11 +16,13 @@ class PnpInput extends StatelessWidget {
         TextFormField(
             decoration: InputDecoration(
                 enabledBorder: OutlineInputBorder(
-                  borderRadius: const BorderRadius.all(Radius.circular(5)),
-                  borderSide: BorderSide(color: Colors.grey.shade300),
+                    borderRadius: const BorderRadius.all(Radius.circular(5)),
+                    borderSide: BorderSide(color: Colors.grey.shade300),
                 ),
                 filled: true,
-                fillColor: Colors.grey.shade300)),
+                fillColor: Colors.grey.shade300
+            )
+        ),
         const SizedBox(
           height: 20,
         ),

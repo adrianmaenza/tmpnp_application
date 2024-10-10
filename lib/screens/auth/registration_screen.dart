@@ -89,7 +89,7 @@ class RegistrationScreen extends StatelessWidget {
                     )
                   ],
                 ),
-                const PnpButton('Login'),
+                PnpButton('Register', onPressed: () => {}),
               ],
             ),
           ),
