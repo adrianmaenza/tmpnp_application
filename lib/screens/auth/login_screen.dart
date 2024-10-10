@@ -18,6 +18,10 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   int _counter = 0;
+  // String username = '';
+  // String password = '';
+  final _usernameController = TextEditingController();
+  final _passwordController = TextEditingController();
 
   void _incrementCounter() {
     setState(() {
@@ -120,13 +124,43 @@ class _LoginScreenState extends State<LoginScreen> {
                 Form(
                     child: Column(
                   children: [
-                    const PnpInput(
+                    PnpInput(
                       label: 'Email',
+                      controller: _usernameController,
                     ),
-                    const PnpInput(
+                    PnpInput(
                       label: 'Password',
+                      obscureInput: true,
+                      controller: _passwordController,
                     ),
-                    PnpButton('Login', onPressed: () => {},),
+                    PnpButton('Login',
+                        onPressed: () {
+                          String username = _usernameController.text;
+                          String password = _passwordController.text;
+
+                          if (username.isEmpty || password.isEmpty) {
+                            final snackBar = SnackBar(
+                              content: const Text('Username and password required!'),
+                              action: SnackBarAction(
+                                label: 'Okay',
+                                onPressed: () {
+                                  // Some code to undo the change.
+                                },
+                              ),
+                            );
+
+                            // Find the ScaffoldMessenger in the widget tree
+                            // and use it to show a SnackBar.
+                            ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                          } else {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                    const HomeScreen()));
+                          }
+                        }
+                    ),
                   ],
                 )),
                 Column(
