@@ -27,9 +27,10 @@ class ProductCard extends StatelessWidget {
               child: SizedBox(height: 100, child: Image.network(imageUrl, fit: BoxFit.contain,)),
             ),
             const SizedBox(height: 16),
+            const Spacer(),
             Text(price, style: const TextStyle(color: Color(primaryColor), fontWeight: FontWeight.bold),),
             const SizedBox(height: 4),
-            Text(title, style: TextStyle(fontSize: 12),)
+            Text(title, style: const TextStyle(fontSize: 12),)
           ],
         ),
       ),

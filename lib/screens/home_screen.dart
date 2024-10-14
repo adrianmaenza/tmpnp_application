@@ -12,8 +12,11 @@ class HomeScreen extends StatelessWidget {
       appBar: AppBar(
         elevation: 0,
         backgroundColor: Colors.white,
-        leading: const CircleAvatar(
-          backgroundImage: NetworkImage('https://via.placeholder.com/150'),
+        leading: const Padding(
+          padding: EdgeInsets.all(10.0),
+          child: CircleAvatar(
+            backgroundImage: NetworkImage('https://via.placeholder.com/150'),
+          ),
         ),
         title: const Column(
           mainAxisAlignment: MainAxisAlignment.start,
@@ -50,23 +53,40 @@ class HomeScreen extends StatelessWidget {
           const SizedBox(height: 16),
 
           // Location Selector
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              const Text('TM Pick n Pay Avondale'),
-              TextButton(
-                onPressed: () {},
-                child: const Text('Change', style: TextStyle(color: Colors.blue)),
+          DecoratedBox(
+            decoration: BoxDecoration(
+              color: Colors.white,
+              boxShadow: const [
+                BoxShadow(color: Colors.black)
+              ],
+              borderRadius: BorderRadius.circular(5)
+            ),
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(15, 0, 15, 0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const Text('TM Pick n Pay Avondale'),
+                  TextButton(
+                    onPressed: () {},
+                    child: const Text('Change', style: TextStyle(color: Colors.blue)),
+                  ),
+                ],
               ),
-            ],
+            ),
           ),
           const SizedBox(height: 16),
 
           // Promo Banner
-          Container(
-            height: 120,
-            color: Colors.green, // You can use an image here instead
-            child: const Center(child: Text('Promo Banner')),
+          DecoratedBox(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(15),
+              color: Colors.green,
+            ),
+            child: const SizedBox(
+              height: 120,// You can use an image here instead
+              child: Center(child: Text('Promo Banner')),
+            ),
           ),
           const SizedBox(height: 16),
 
@@ -84,16 +104,14 @@ class HomeScreen extends StatelessWidget {
           const SizedBox(height: 16),
 
           // Categories Row
-          SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
-            child: Row(
-              children: [
-                CategoryItem('Perishables', Icons.local_dining),
-                CategoryItem('Dry Foods', Icons.local_grocery_store),
-                CategoryItem('Beverages', Icons.local_bar),
-                CategoryItem('Fruit & Vegetables', Icons.local_florist),
-              ],
-            ),
+          const Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              CategoryItem('Perishables', Icons.local_dining),
+              CategoryItem('Dry Foods', Icons.local_grocery_store),
+              CategoryItem('Beverages', Icons.local_bar),
+              CategoryItem('Fruit & Veg', Icons.local_florist),
+            ],
           ),
           const SizedBox(height: 16),
 
@@ -149,15 +167,22 @@ class HomeScreen extends StatelessWidget {
       ),
 
 
-      bottomNavigationBar: BottomNavigationBar(
-        items: const [
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
-          BottomNavigationBarItem(icon: Icon(Icons.category), label: 'Categories'),
-          BottomNavigationBarItem(icon: Icon(Icons.local_offer), label: 'Specials'),
-          BottomNavigationBarItem(icon: Icon(Icons.favorite), label: 'Wishlist'),
-          BottomNavigationBarItem(icon: Icon(Icons.shopping_cart), label: 'Trolley'),
-        ],
-      ),
+      bottomNavigationBar: SizedBox(
+        width: double.infinity,
+        child: Padding(
+          padding: const EdgeInsets.all(12.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              IconButton(icon: const Icon(Icons.home), onPressed: () => {},),
+              IconButton(icon: const Icon(Icons.add_business_outlined), onPressed: () => {},),
+              IconButton(icon: const Icon(Icons.local_offer), onPressed: () => {},),
+              IconButton(icon: const Icon(Icons.favorite), onPressed: () => {},),
+              IconButton(icon: const Icon(Icons.shopping_cart), onPressed: () => {},),
+            ],
+          ),
+        ),
+      )
     );
 
 
@@ -168,7 +193,7 @@ class CategoryItem extends StatelessWidget {
   final String name;
   final IconData icon;
 
-  CategoryItem(this.name, this.icon);
+  const CategoryItem(this.name, this.icon, {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -178,9 +203,9 @@ class CategoryItem extends StatelessWidget {
         children: [
           CircleAvatar(
             radius: 30,
-            child: Icon(icon),
+            child: IconButton(icon: Icon(icon), onPressed: () => {},),
           ),
-          SizedBox(height: 8),
+          const SizedBox(height: 8),
           Text(name),
         ],
       ),
