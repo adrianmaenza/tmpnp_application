@@ -17,7 +17,7 @@ class ProductView extends StatelessWidget {
             children: [
 
               Center(
-                child: SizedBox(height: 250, child: Image.network('https://placehold.co/600x400/png', fit: BoxFit.contain,)),
+                child: SizedBox(height: 250, child: Image.network('https://tmpnp.s3.eu-central-1.amazonaws.com/product_images/2022/03/6007038002376-Arenel-Marie-Biscuits-Front-Shot-1.png', fit: BoxFit.contain,)),
               ),
 
               const SizedBox(height: 10),
