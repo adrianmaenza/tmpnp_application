@@ -12,7 +12,7 @@ class ProductView extends StatelessWidget {
           backgroundColor: const Color(0xFFFAFAFA),
         ),
         body: Padding(
-          padding: const EdgeInsets.all(12.0),
+          padding: const EdgeInsets.all(16.0),
           child: ListView(
             children: [
 
