@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tmpnp_application/screens/auth/registration_screen.dart';
 import 'package:tmpnp_application/util/constants.dart';
-
+import '../../location/location_view.dart';
 import '../../widgets/pnp_button.dart';
 import '../../widgets/pnp_input.dart';
 import '../../widgets/pnp_oulined_button.dart';
@@ -17,16 +17,12 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  int _counter = 0;
-  // String username = '';
-  // String password = '';
   final _usernameController = TextEditingController();
   final _passwordController = TextEditingController();
 
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
+  // @TODO implement login logic
+  void _login() {
+    // login logic
   }
 
   @override
@@ -64,8 +60,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                   Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                          builder: (context) =>
-                                          const HomeScreen()))
+                                          builder: (context) => const Location()))
                                   },
                                 ),
                                 TextButton(

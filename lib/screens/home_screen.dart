@@ -15,7 +15,7 @@ class HomeScreen extends StatelessWidget {
         leading: const Padding(
           padding: EdgeInsets.all(10.0),
           child: CircleAvatar(
-            backgroundImage: NetworkImage('https://via.placeholder.com/150'),
+            backgroundImage: NetworkImage('https://placehold.co/100x100/png'),
           ),
         ),
         title: const Column(
@@ -127,12 +127,12 @@ class HomeScreen extends StatelessWidget {
               ProductCard(
                 title: 'Coca-Cola Original Soft Drink 2L',
                 price: '\$2.00',
-                imageUrl: 'https://via.placeholder.com/100',
+                imageUrl: 'https://placehold.co/600x400/png',
               ),
               ProductCard(
                 title: 'Bakers Betta Snack Milk Chocolate 200g',
                 price: '\$3.50',
-                imageUrl: 'https://via.placeholder.com/100',
+                imageUrl: 'https://placehold.co/600x400/png',
               ),
               // Add more ProductCard widgets if needed
             ],
@@ -153,12 +153,12 @@ class HomeScreen extends StatelessWidget {
                 ProductCard(
                   title: 'Coca-Cola Original Soft Drink 2L',
                   price: '\$2.00',
-                  imageUrl: 'https://via.placeholder.com/100',
+                  imageUrl: 'https://placehold.co/600x400/png',
                 ),
                 ProductCard(
                   title: 'Bakers Betta Snack Milk Chocolate 200g',
                   price: '\$3.50',
-                  imageUrl: 'https://via.placeholder.com/100',
+                  imageUrl: 'https://placehold.co/600x400/png',
                 ),
                 // Add more ProductCard widgets if needed
               ],

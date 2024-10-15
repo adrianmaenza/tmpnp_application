@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tmpnp_application/screens/product/product_view.dart';
 import 'package:tmpnp_application/util/constants.dart';
 
 class ProductCard extends StatelessWidget {
@@ -6,7 +7,11 @@ class ProductCard extends StatelessWidget {
   final String price;
   final String imageUrl;
 
-  const ProductCard({super.key, required this.title, required this.price, required this.imageUrl});
+  const ProductCard(
+      {super.key,
+      required this.title,
+      required this.price,
+      required this.imageUrl});
 
   @override
   Widget build(BuildContext context) {
@@ -18,19 +23,58 @@ class ProductCard extends StatelessWidget {
           children: [
             Row(
               children: [
-                IconButton(onPressed: () => {}, icon: const Icon(Icons.favorite_border, size: 16,)),
+                IconButton(
+                    onPressed: () => {},
+                    icon: const Icon(
+                      Icons.favorite_border,
+                      size: 16,
+                    )),
                 const Spacer(),
-                IconButton(onPressed: () => {}, icon: const Icon(Icons.add_circle_outline, size: 16,))
+                IconButton(
+                    onPressed: () => {},
+                    icon: const Icon(
+                      Icons.add_circle_outline,
+                      size: 16,
+                    ))
               ],
             ),
             Center(
-              child: SizedBox(height: 100, child: Image.network(imageUrl, fit: BoxFit.contain,)),
+              child: SizedBox(
+                  height: 100,
+                  child: Image.network(
+                    imageUrl,
+                    fit: BoxFit.contain,
+                  )),
             ),
             const SizedBox(height: 16),
             const Spacer(),
-            Text(price, style: const TextStyle(color: Color(primaryColor), fontWeight: FontWeight.bold),),
-            const SizedBox(height: 4),
-            Text(title, style: const TextStyle(fontSize: 12),)
+            GestureDetector(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const ProductView()),
+                );
+              },
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                // Aligns text to the left
+                children: [
+                  Text(
+                    price,
+                    style: const TextStyle(
+                      color: Color(primaryColor),
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  const SizedBox(height: 4),
+                  Text(
+                    title,
+                    style: const TextStyle(fontSize: 12),
+                  ),
+                ],
+              ),
+            )
           ],
         ),
       ),
