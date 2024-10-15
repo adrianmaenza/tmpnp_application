@@ -39,12 +39,19 @@ class ProductCard extends StatelessWidget {
               ],
             ),
             Center(
-              child: SizedBox(
-                  height: 100,
-                  child: Image.network(
-                    imageUrl,
-                    fit: BoxFit.contain,
-                  )),
+              child: GestureDetector(
+                onTap: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (context) {
+                    return const ProductView();
+                  }));
+                },
+                child: SizedBox(
+                    height: 100,
+                    child: Image.network(
+                      imageUrl,
+                      fit: BoxFit.contain,
+                    )),
+              ),
             ),
             const SizedBox(height: 16),
             const Spacer(),

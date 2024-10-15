@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tmpnp_application/screens/category/category_view.dart';
 
 import '../widgets/product_card.dart';
 
@@ -203,7 +204,17 @@ class CategoryItem extends StatelessWidget {
         children: [
           CircleAvatar(
             radius: 30,
-            child: IconButton(icon: Icon(icon), onPressed: () => {},),
+            child: IconButton(
+              icon: Icon(icon),
+              onPressed: () => {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const CategoryView()
+                    )
+                )
+              },
+            ),
           ),
           const SizedBox(height: 8),
           Text(name),
