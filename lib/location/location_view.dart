@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tmpnp_application/screens/home_screen.dart';
 import 'package:tmpnp_application/util/constants.dart';
 import 'package:tmpnp_application/widgets/pnp_button.dart';
