@@ -31,7 +31,7 @@ class CategoryView extends StatelessWidget {
             ),
 
             // grid of products
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
 
             // Filter and sorting options
             Row(
