@@ -119,22 +119,14 @@ class HomeScreen extends StatelessWidget {
           // Top Online Deals
           const Text('Top Online Deals', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
           const SizedBox(height: 16),
-          GridView.count(
-            crossAxisCount: 2,
-            shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(),
-            childAspectRatio: 3/5,
+          ListView(
             children: const [
-              ProductCard(
-                title: 'Coca-Cola Original Soft Drink 2L',
-                price: '\$2.00',
-                imageUrl: 'https://placehold.co/600x400/png',
-              ),
-              ProductCard(
-                title: 'Bakers Betta Snack Milk Chocolate 200g',
-                price: '\$3.50',
-                imageUrl: 'https://placehold.co/600x400/png',
-              ),
+             Text("This is a test"),
+              // ProductCard(
+              //   title: 'Bakers Betta Snack Milk Chocolate 200g',
+              //   price: '\$3.50',
+              //   imageUrl: 'https://placehold.co/600x400/png',
+              // ),
               // Add more ProductCard widgets if needed
             ],
           ),

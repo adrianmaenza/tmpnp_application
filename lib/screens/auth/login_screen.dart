@@ -60,7 +60,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                   Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                          builder: (context) => const Location()))
+                                          builder: (context) => const LocationPicker()))
                                   },
                                 ),
                                 TextButton(
