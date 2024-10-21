@@ -19,16 +19,13 @@ class _LocationPickerState extends State<LocationPicker> {
   List<Region> regions = [];
   Region? selectedRegion;
 
-  List<Location> stores = [];
-  Location? selectedStore;
-
-  List<Location> eligibleStores = [];
+  List<Store> stores = [];
+  Store? selectedStore;
 
   @override
   void initState() {
     super.initState();
     _loadRegions();
-    _loadLocations();
   }
 
   Future<void> _loadRegions() async {
@@ -43,17 +40,6 @@ class _LocationPickerState extends State<LocationPicker> {
     }
   }
 
-  Future<void> _loadLocations() async {
-    try {
-      final data = await locationService.fetchLocations();
-      setState(() {
-        stores = data;
-      });
-    } catch (e) {
-      // Handle error gracefully
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -65,13 +51,17 @@ class _LocationPickerState extends State<LocationPicker> {
         padding: const EdgeInsets.all(12.0),
         child: ListView(
           children: [
+
             const Text(
               "Please select your preferred collection point.",
-              style: TextStyle(fontSize: 20),
+              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
               textAlign: TextAlign.center,
             ),
+
             const SizedBox(height: 20),
+
             const Text("Region:"),
+
             const SizedBox(height: 5),
 
             // Region Dropdown
@@ -116,7 +106,7 @@ class _LocationPickerState extends State<LocationPicker> {
                         onChanged: (Region? newRegion) {
                           setState(() {
                             selectedRegion = newRegion;
-                            eligibleStores = stores.where((store) => store.regionId == selectedRegion?.id).toList();
+                            if (newRegion != null) stores = newRegion.stores;
                             selectedStore = null;
                           });
                           // print(eligibleStores);
@@ -145,7 +135,7 @@ class _LocationPickerState extends State<LocationPicker> {
                     child: DropdownButtonHideUnderline(
 
                       // drop down button
-                      child: DropdownButton<Location>(
+                      child: DropdownButton<Store>(
                         isExpanded: true,
                         value: selectedStore,
                         iconEnabledColor: Colors.white,
@@ -154,14 +144,14 @@ class _LocationPickerState extends State<LocationPicker> {
                           "Select store",
                           style: TextStyle(color: Colors.white),
                         ),
-                        items: stores.map((Location store) {
-                          return DropdownMenuItem<Location>(
+                        items: stores.map((Store store) {
+                          return DropdownMenuItem<Store>(
                             value: store,
                             child: Text(store.name),
                           );
                         }).toList(),
                         selectedItemBuilder: (BuildContext context) {
-                          return stores.map((Location store) {
+                          return stores.map((Store store) {
                             return Padding(
                               padding: const EdgeInsets.symmetric(vertical: 14),
                               child: Text(
@@ -171,7 +161,7 @@ class _LocationPickerState extends State<LocationPicker> {
                             );
                           }).toList();
                         },
-                        onChanged: (Location? newStore) {
+                        onChanged: (Store? newStore) {
                           setState(() {
                             selectedStore = newStore;
                           });
@@ -181,8 +171,8 @@ class _LocationPickerState extends State<LocationPicker> {
               ),
             ),
 
-
             const SizedBox(height: 20),
+
             // Proceed Button
             ElevatedButton(
               onPressed: () {
@@ -196,6 +186,17 @@ class _LocationPickerState extends State<LocationPicker> {
                   minimumSize: const Size.fromHeight(45)),
               child: const Text("Proceed", style: TextStyle(color: Colors.white),),
             ),
+
+            const SizedBox(height: 20),
+
+            const Text(
+              'By proceeding, you agree to our\nprivacy policy and terms.',
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                color: Colors.blue,
+                height: 1.2
+              ),
+            )
           ],
         ),
       ),

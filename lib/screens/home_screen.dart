@@ -1,10 +1,42 @@
 import 'package:flutter/material.dart';
+import 'package:tmpnp_application/models/product.dart';
 import 'package:tmpnp_application/screens/category/category_view.dart';
+import 'package:tmpnp_application/util/constants.dart';
 
+import '../services/product_service.dart';
 import '../widgets/product_card.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
+
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+
+  final ProductService productService = ProductService();
+
+  List<Product> featured = [];
+
+  @override
+  @override
+  void initState() {
+    super.initState();
+    _loadFeatured();
+  }
+
+  Future<void> _loadFeatured() async {
+    try {
+      final data = await productService.fetchFeatured();
+      setState(() {
+        featured = data;
+      });
+    } catch (e) {
+      // Handle error gracefully
+      print('Error fetching regions: $e');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -79,16 +111,27 @@ class HomeScreen extends StatelessWidget {
           const SizedBox(height: 16),
 
           // Promo Banner
-          DecoratedBox(
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(15),
-              color: Colors.green,
-            ),
-            child: const SizedBox(
-              height: 120,// You can use an image here instead
-              child: Center(child: Text('Promo Banner')),
+          SizedBox(
+            height: 300,
+
+            child: ListView(
+              shrinkWrap: true,
+              scrollDirection: Axis.horizontal,
+              children: [
+                SizedBox(
+                  width: 300,
+                    child: Image.asset('assets/pnp-one.png')
+                ),
+                const SizedBox(width: 10,),
+                SizedBox(
+                    width: 300,
+                    child: Image.asset('assets/pnp-2.png')
+                )
+              ],
             ),
           ),
+
+
           const SizedBox(height: 16),
 
           // Shop by Category
@@ -119,16 +162,25 @@ class HomeScreen extends StatelessWidget {
           // Top Online Deals
           const Text('Top Online Deals', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
           const SizedBox(height: 16),
-          ListView(
-            children: const [
-             Text("This is a test"),
-              // ProductCard(
-              //   title: 'Bakers Betta Snack Milk Chocolate 200g',
-              //   price: '\$3.50',
-              //   imageUrl: 'https://placehold.co/600x400/png',
-              // ),
-              // Add more ProductCard widgets if needed
-            ],
+
+          SizedBox(
+            height: 300,
+            child: ListView.builder(
+              shrinkWrap: true,
+              scrollDirection: Axis.horizontal,
+              itemCount: featured.length,
+              itemBuilder: (context, index) {
+                final product = featured[index];
+                return SizedBox(
+                  width: 180,
+                  child: ProductCard(
+                    title: product.name,
+                    price: '\$${product.price}',
+                    imageUrl: '$bucketUrl/product_images/${product.image}',
+                  ),
+                );
+              },
+            ),
           ),
 
 
