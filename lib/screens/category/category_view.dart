@@ -1,20 +1,60 @@
 import 'package:flutter/material.dart';
+import 'package:tmpnp_application/services/product_service.dart';
 
-class CategoryView extends StatelessWidget {
-  const CategoryView({super.key});
+import '../../models/product.dart';
+import '../../util/constants.dart';
+import '../../widgets/product_card.dart';
+import '../product/product_view.dart';
 
+class CategoryView extends StatefulWidget {
+  final String name;
+  final String path;
+  const CategoryView(this.name, this.path, {super.key});
+
+  @override
+  State<CategoryView> createState() => _CategoryViewState();
+}
+
+class _CategoryViewState extends State<CategoryView> {
+  
+  final ProductService productService = ProductService();
+  
+  List<Product> products = [];
+  bool loading = true;
+  
+  Future<void> _getProducts() async {
+    try {
+      final data = await productService.fetchAisle(widget.path);
+      
+      setState(() {
+        products = data;
+        loading = false;
+      });
+    } catch (e) {
+      print(e);
+    }
+  }
+  
+  @override
+  void initState() {
+    super.initState();
+    _getProducts();
+  }
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         elevation: 20,
-        title: const Text("Category Name"),
+        title: Text(widget.name),
       ),
 
       // body
       body: Padding(
         padding: const EdgeInsets.all(16),
-        child: ListView(
+        child: loading
+            ? const LinearProgressIndicator()
+            : Column(
           children: [
             // search bar
             TextField(
@@ -47,7 +87,7 @@ class CategoryView extends StatelessWidget {
                                 child: Column(
                                   children: [
                                     const SizedBox(height: 10),
-                  
+
                                     // Drag indicator
                                     Container(
                                       width: 50,
@@ -57,19 +97,19 @@ class CategoryView extends StatelessWidget {
                                         borderRadius: BorderRadius.circular(10),
                                       ),
                                     ),
-                  
+
                                     const SizedBox(height: 20,),
 
                                     // show sort/filter options
-                  
+
                                   ],
                                 ),
                               );
                             }
                         );
                       },
-                  
-                  
+
+
                       child: const Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
@@ -125,10 +165,39 @@ class CategoryView extends StatelessWidget {
                       )
                   ),
                 ),
-                
-                
-                
+
+
+
               ],
+            ),
+
+            const SizedBox(height: 20),
+
+            Expanded(
+              child: GridView.builder(
+                shrinkWrap: true,
+                itemCount: products.length,
+                itemBuilder: (context, index) {
+                  final product = products[index];
+                  return ProductCard(
+                    title: product.name,
+                    price: '\$${product.price}',
+                    imageUrl: product.image != null
+                        ? '$bucketUrl/product_images/${product.image}'
+                        : 'https://placehold.co/100x100/png',
+                    onSelect: () {
+                      Navigator.push(context, MaterialPageRoute(builder: (context) {
+                        return ProductView(id: product.id);
+                      }));
+                    },
+                  );
+                }, gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2,
+                crossAxisSpacing: 5.0,
+                mainAxisSpacing: 5.0,
+                childAspectRatio: 3/5
+              ),
+              ),
             ),
 
           ],

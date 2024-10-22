@@ -20,9 +20,17 @@ class _LoginScreenState extends State<LoginScreen> {
   final _usernameController = TextEditingController();
   final _passwordController = TextEditingController();
 
+  bool showOtpMsg = false;
+
   // @TODO implement login logic
   void _login() {
     // login logic
+  }
+
+  void _setShowOtp() {
+    setState(() {
+      showOtpMsg = true;
+    });
   }
 
   @override
@@ -105,11 +113,17 @@ class _LoginScreenState extends State<LoginScreen> {
                       const SizedBox(
                         height: 20,
                       ),
-                      const Text(
-                        "We just sent you a temporary login code. Please check your email.",
-                        style: TextStyle(fontSize: 14),
-                        textAlign: TextAlign.center,
-                      ),
+
+                      SizedBox(
+                        child: showOtpMsg
+                            ? const Text(
+                          "We just sent you a temporary login code. Please check your email.",
+                          style: TextStyle(fontSize: 14),
+                          textAlign: TextAlign.center,
+                        )
+                            : const SizedBox.shrink(), // A fallback empty widget if needed
+                      )
+
                     ],
                   ),
                 ),

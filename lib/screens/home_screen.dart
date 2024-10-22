@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tmpnp_application/models/product.dart';
 import 'package:tmpnp_application/screens/category/category_view.dart';
+import 'package:tmpnp_application/screens/product/product_view.dart';
 import 'package:tmpnp_application/util/constants.dart';
 
 import '../services/product_service.dart';
@@ -19,7 +20,6 @@ class _HomeScreenState extends State<HomeScreen> {
 
   List<Product> featured = [];
 
-  @override
   @override
   void initState() {
     super.initState();
@@ -151,10 +151,10 @@ class _HomeScreenState extends State<HomeScreen> {
           const Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              CategoryItem('Perishables', Icons.local_dining),
-              CategoryItem('Dry Foods', Icons.local_grocery_store),
-              CategoryItem('Beverages', Icons.local_bar),
-              CategoryItem('Fruit & Veg', Icons.local_florist),
+              CategoryItem('Perishables', Icons.local_dining, 'http://apps.quatrohaus.com:8282/api/v1/product/search-product/430/'),
+              CategoryItem('Dry Foods', Icons.local_grocery_store, 'http://apps.quatrohaus.com:8282/api/v1/product/search-product/242/'),
+              CategoryItem('Beverages', Icons.local_bar, 'http://apps.quatrohaus.com:8282/api/v1/product/search-product/300/'),
+              CategoryItem('Fruit & Veg', Icons.local_florist, 'http://apps.quatrohaus.com:8282/api/v1/product/search-product/430/'),
             ],
           ),
           const SizedBox(height: 16),
@@ -177,6 +177,11 @@ class _HomeScreenState extends State<HomeScreen> {
                     title: product.name,
                     price: '\$${product.price}',
                     imageUrl: '$bucketUrl/product_images/${product.image}',
+                    onSelect: () {
+                      Navigator.push(context, MaterialPageRoute(builder: (context) {
+                        return ProductView(id: product.id);
+                      }));
+                    },
                   ),
                 );
               },
@@ -187,27 +192,27 @@ class _HomeScreenState extends State<HomeScreen> {
           const SizedBox(height: 16),
 
           // Featured Products
-          const Text('Featured Products', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-          const SizedBox(height: 16),
-          GridView.count(
-              crossAxisCount: 2,
-              shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
-              childAspectRatio: 3/5,
-              children: const [
-                ProductCard(
-                  title: 'Coca-Cola Original Soft Drink 2L',
-                  price: '\$2.00',
-                  imageUrl: 'https://placehold.co/600x400/png',
-                ),
-                ProductCard(
-                  title: 'Bakers Betta Snack Milk Chocolate 200g',
-                  price: '\$3.50',
-                  imageUrl: 'https://placehold.co/600x400/png',
-                ),
-                // Add more ProductCard widgets if needed
-              ],
-            ),
+          // const Text('Featured Products', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+          // const SizedBox(height: 16),
+          // GridView.count(
+          //     crossAxisCount: 2,
+          //     shrinkWrap: true,
+          //     physics: const NeverScrollableScrollPhysics(),
+          //     childAspectRatio: 3/5,
+          //     children: const [
+          //       ProductCard(
+          //         title: 'Coca-Cola Original Soft Drink 2L',
+          //         price: '\$2.00',
+          //         imageUrl: 'https://placehold.co/600x400/png',
+          //       ),
+          //       ProductCard(
+          //         title: 'Bakers Betta Snack Milk Chocolate 200g',
+          //         price: '\$3.50',
+          //         imageUrl: 'https://placehold.co/600x400/png',
+          //       ),
+          //       // Add more ProductCard widgets if needed
+          //     ],
+          //   ),
         ],
       ),
 
@@ -237,8 +242,9 @@ class _HomeScreenState extends State<HomeScreen> {
 class CategoryItem extends StatelessWidget {
   final String name;
   final IconData icon;
+  final String path;
 
-  const CategoryItem(this.name, this.icon, {super.key});
+  const CategoryItem(this.name, this.icon, this.path, {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -254,7 +260,7 @@ class CategoryItem extends StatelessWidget {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => const CategoryView()
+                        builder: (context) => CategoryView(name, path)
                     )
                 )
               },

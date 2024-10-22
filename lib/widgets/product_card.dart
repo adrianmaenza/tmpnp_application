@@ -6,12 +6,16 @@ class ProductCard extends StatelessWidget {
   final String title;
   final String price;
   final String imageUrl;
+  final VoidCallback onSelect;
 
   const ProductCard(
-      {super.key,
-      required this.title,
-      required this.price,
-      required this.imageUrl});
+      {
+        super.key,
+        required this.title,
+        required this.price,
+        required this.imageUrl,
+        required this.onSelect
+      });
 
   @override
   Widget build(BuildContext context) {
@@ -40,11 +44,7 @@ class ProductCard extends StatelessWidget {
             ),
             Center(
               child: GestureDetector(
-                onTap: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) {
-                    return const ProductView();
-                  }));
-                },
+                onTap: onSelect,
                 child: SizedBox(
                     height: 100,
                     child: Image.network(
@@ -56,12 +56,7 @@ class ProductCard extends StatelessWidget {
             const SizedBox(height: 16),
             const Spacer(),
             GestureDetector(
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const ProductView()),
-                );
-              },
+              onTap: onSelect,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,

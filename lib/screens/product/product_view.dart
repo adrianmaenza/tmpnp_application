@@ -1,8 +1,38 @@
 import 'package:flutter/material.dart';
+import 'package:tmpnp_application/models/product.dart';
+import 'package:tmpnp_application/services/product_service.dart';
 import 'package:tmpnp_application/util/constants.dart';
 
-class ProductView extends StatelessWidget {
-  const ProductView({super.key});
+class ProductView extends StatefulWidget {
+  final int id;
+  const ProductView({super.key, required this.id});
+
+  @override
+  State<ProductView> createState() => _ProductViewState();
+}
+
+class _ProductViewState extends State<ProductView> {
+
+  final ProductService productService = ProductService();
+
+  Product? product;
+
+  Future<void> _getProduct() async  {
+    try {
+      final data = await productService.getProduct(widget.id);
+      setState(() {
+        product = data;
+      });
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _getProduct();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -13,19 +43,20 @@ class ProductView extends StatelessWidget {
         ),
         body: Padding(
           padding: const EdgeInsets.all(16.0),
-          child: ListView(
+          child: product != null
+              ? ListView(
             children: [
 
               Center(
-                child: SizedBox(height: 250, child: Image.network('https://tmpnp.s3.eu-central-1.amazonaws.com/product_images/2022/03/6007038002376-Arenel-Marie-Biscuits-Front-Shot-1.png', fit: BoxFit.contain,)),
+                child: SizedBox(height: 250, child: Image.network('$bucketUrl/product_images/${product!.image}', fit: BoxFit.contain,)),
               ),
 
               const SizedBox(height: 10),
 
               // Product name
-              const Text(
-                "Coca-Cola Original Soft Drink 2L",
-                style: TextStyle(
+              Text(
+                product!.name.toString(),
+                style: const TextStyle(
                     color: Color(secondaryColor),
                     fontSize: 18,
                     fontWeight: FontWeight.bold),
@@ -39,9 +70,9 @@ class ProductView extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   // Product price
-                  const Text(
-                    "\$2.00",
-                    style: TextStyle(
+                  Text(
+                    "\$${product!.price}",
+                    style: const TextStyle(
                         color: Color(primaryColor),
                         fontSize: 18,
                         fontWeight: FontWeight.bold),
@@ -120,16 +151,21 @@ class ProductView extends StatelessWidget {
               ),
 
               // Product description
-              const Text(
-                  "Coca-Cola Original taste is the world's favourite soft drink and has..."),
+              Text(
+                  product!.description != null
+                      ? product!.description.toString()
+                      : product!.name.toString()
+              ),
             ],
-          ),
+          )
+              : const LinearProgressIndicator()
         ),
 
         // Bottom navigation bar
         bottomNavigationBar: SizedBox(
           width: double.infinity,
-          child: Padding(
+          child: product != null
+              ? Padding(
             padding: const EdgeInsets.all(12.0),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -147,14 +183,14 @@ class ProductView extends StatelessWidget {
                     style: ElevatedButton.styleFrom(
                       backgroundColor: const Color(primaryColor),
                     ),
-                    child: const Row(
+                    child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(
+                        const Text(
                           "Add",
                           style: TextStyle(color: Colors.white),
                         ),
-                        Text("\$2.00", style: TextStyle(color: Colors.white)),
+                        Text("\$${product!.price}", style: const TextStyle(color: Colors.white)),
                       ],
                     ),
                   ),
@@ -167,7 +203,9 @@ class ProductView extends StatelessWidget {
                     onPressed: () {}, icon: const Icon(Icons.favorite_outline)),
               ],
             ),
-          ),
+          )
+              : const SizedBox()
+          ,
         ));
   }
 }
