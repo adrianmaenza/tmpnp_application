@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tmpnp_application/authentication/authentication.dart';
 import 'package:tmpnp_application/home/home.dart';
 import 'package:tmpnp_application/login/login.dart';
-import 'package:tmpnp_application/splash/splash.dart';
+import 'package:tmpnp_application/screens/splash/splash.dart';
 import 'package:user_repository/user_repository.dart';
 
 class App extends StatefulWidget {

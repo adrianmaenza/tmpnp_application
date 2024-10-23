@@ -7,6 +7,8 @@ class ProductCard extends StatelessWidget {
   final String price;
   final String imageUrl;
   final VoidCallback onSelect;
+  final VoidCallback? onAdd;
+  final VoidCallback? onLike;
 
   const ProductCard(
       {
@@ -14,7 +16,9 @@ class ProductCard extends StatelessWidget {
         required this.title,
         required this.price,
         required this.imageUrl,
-        required this.onSelect
+        required this.onSelect,
+        this.onAdd,
+        this.onLike
       });
 
   @override
@@ -28,14 +32,14 @@ class ProductCard extends StatelessWidget {
             Row(
               children: [
                 IconButton(
-                    onPressed: () => {},
+                    onPressed: onLike,
                     icon: const Icon(
                       Icons.favorite_border,
                       size: 16,
                     )),
                 const Spacer(),
                 IconButton(
-                    onPressed: () => {},
+                    onPressed: onAdd,
                     icon: const Icon(
                       Icons.add_circle_outline,
                       size: 16,

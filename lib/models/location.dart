@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 
-class Store extends Equatable {
+class Location extends Equatable {
   final int id;
   final int regionId;
   final String name;
@@ -12,7 +12,7 @@ class Store extends Equatable {
   final String openingHour;
   final String closingHour;
 
-  const Store({
+  const Location({
       required this.id,
       required this.regionId,
       required this.name,
@@ -26,8 +26,8 @@ class Store extends Equatable {
   });
 
   // Factory method to create Region from JSON
-  factory Store.fromJson(Map<String, dynamic> json) {
-    return Store(
+  factory Location.fromJson(Map<String, dynamic> json) {
+    return Location(
       id: json['id'],
       name: json['name'],
       regionId: json['region_id'],
@@ -40,6 +40,23 @@ class Store extends Equatable {
       closingHour: json['closing_hour']
     );
   }
+
+  // Method to convert Location to JSON
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'region_id': regionId,
+      'name': name,
+      'street': street,
+      'email': email,
+      'phone': phone,
+      'latitude': latitude,
+      'longitude': longitude,
+      'opening_hour': openingHour,
+      'closing_hour': closingHour,
+    };
+  }
+
 
   @override
   List<Object?> get props => [

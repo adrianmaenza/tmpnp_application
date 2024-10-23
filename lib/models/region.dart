@@ -4,7 +4,7 @@ import 'package:tmpnp_application/models/location.dart';
 class Region extends Equatable {
   final int id;
   final String name;
-  final List<Store> stores;
+  final List<Location> stores;
 
   const Region({required this.id, required this.name, required this.stores});
 
@@ -14,7 +14,7 @@ class Region extends Equatable {
       id: json['id'],
       name: json['name'],
       stores: (json['locations'] as List)
-          .map((store) => Store.fromJson(store))
+          .map((store) => Location.fromJson(store))
           .toList()
     );
   }
