@@ -28,11 +28,12 @@ class _LoginScreenState extends State<LoginScreen> {
 
   bool showOtpMsg = false;
   bool loading = false;
-  String? errorMessage;
+  String errorMessage = '';
 
   Future<void> _login(BuildContext context) async {
     setState(() {
       loading = true;
+      errorMessage = '';
     });
     String username = _usernameController.text;
     String password = _passwordController.text;
@@ -42,10 +43,14 @@ class _LoginScreenState extends State<LoginScreen> {
       final data =
           await authService.authenticateUser(AuthRequest(username, password));
 
+      setState(() {
+        loading = false;
+      });
+
       if (context.mounted) {
         context.read<AppBloc>().add(Login(data));
-        Navigator.push(context,
-            MaterialPageRoute(builder: (context) => const HomeScreen()));
+        Navigator.pushReplacement(context,
+            MaterialPageRoute(builder: (context) => const LocationPicker()));
       }
     } catch (e) {
       print(e);
@@ -184,6 +189,12 @@ class _LoginScreenState extends State<LoginScreen> {
                             obscureInput: true,
                             controller: _passwordController,
                           ),
+
+
+                          loading ? const LinearProgressIndicator() : const SizedBox(),
+
+                          const SizedBox(height: 20,),
+
                           PnpButton('Login', onPressed: () {
                             String username = _usernameController.text;
                             String password = _passwordController.text;
@@ -213,6 +224,17 @@ class _LoginScreenState extends State<LoginScreen> {
                               //         const HomeScreen()));
                             }
                           }),
+
+                          const SizedBox(height: 20,),
+
+                          errorMessage.isNotEmpty
+                              ? Text(
+                                  errorMessage.toString(),
+                                  style: const TextStyle(color: Colors.red)
+                                )
+                              : const SizedBox(),
+
+
                         ],
                       )),
                       Column(
