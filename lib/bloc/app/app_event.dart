@@ -31,3 +31,9 @@ class CartSetLocation extends AppEvent {
 
   CartSetLocation(this.location);
 }
+
+class Login extends AppEvent {
+  final AuthResponse? auth;
+
+  Login(this.auth);
+}

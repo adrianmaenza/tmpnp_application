@@ -6,6 +6,7 @@ import 'package:tmpnp_application/screens/category/category_view.dart';
 import 'package:tmpnp_application/screens/product/product_view.dart';
 import 'package:tmpnp_application/util/constants.dart';
 import 'package:tmpnp_application/widgets/pnp_appbar.dart';
+
 import '../bloc/app/app_bloc.dart';
 import '../services/product_service.dart';
 import '../widgets/product_card.dart';
@@ -48,8 +49,9 @@ class _HomeScreenState extends State<HomeScreen> {
       create: (context) => AppBloc(),
       child: BlocBuilder<AppBloc, AppState>(
         builder: (context, state) {
-
           return Scaffold(
+
+              // App bar
               appBar: AppBar(
                 elevation: 1,
                 backgroundColor: Colors.white,
@@ -60,18 +62,30 @@ class _HomeScreenState extends State<HomeScreen> {
                         NetworkImage('https://placehold.co/100x100/png'),
                   ),
                 ),
-                title: const Column(
+
+                // Title
+                title: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text('Welcome',
-                        style: TextStyle(color: Colors.black, fontSize: 14)),
-                    Text('John Doe',
-                        style: TextStyle(
+                    // Welcome message
+                    const Text(
+                      'Welcome',
+                      style: TextStyle(color: Colors.black, fontSize: 14),
+                    ),
+
+                    // Auth name
+                    Text(
+                        state.auth != null
+                            ? state.auth!.user!.name.toString()
+                            : 'Anonymous',
+                        style: const TextStyle(
                             color: Colors.black,
                             fontSize: 16,
                             fontWeight: FontWeight.bold)),
                   ],
                 ),
+
                 actions: [
                   IconButton(
                     icon: const Icon(Icons.notifications, color: Colors.black),
@@ -95,6 +109,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         filled: true,
                         fillColor: Colors.grey.shade300),
                   ),
+
                   const SizedBox(height: 16),
 
                   // Location Selector
@@ -108,17 +123,24 @@ class _HomeScreenState extends State<HomeScreen> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
-                          const Icon(Icons.location_on_outlined, color: Color(primaryColor),),
-
-                          const SizedBox(width: 10,),
-
-                          Text(state.location != null ? state.location!.name.toString() : 'No location chosen'),
-
+                          const Icon(
+                            Icons.location_on_outlined,
+                            color: Color(primaryColor),
+                          ),
+                          const SizedBox(
+                            width: 10,
+                          ),
+                          Text(state.location != null
+                              ? state.location!.name.toString()
+                              : 'No location chosen'),
                           const Spacer(),
-
                           TextButton(
                             onPressed: () {
-                              Navigator.push(context, MaterialPageRoute(builder: (context) => const LocationPicker()));
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          const LocationPicker()));
                             },
                             child: const Text('Change',
                                 style: TextStyle(color: Colors.blue)),
@@ -127,7 +149,6 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                     ),
                   ),
-
 
                   const SizedBox(height: 16),
 
@@ -165,6 +186,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                     ],
                   ),
+
                   const SizedBox(height: 16),
 
                   // Categories Row
@@ -181,6 +203,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           'http://apps.quatrohaus.com:8282/api/v1/product/search-product/430/'),
                     ],
                   ),
+
                   const SizedBox(height: 16),
 
                   // Top Online Deals
@@ -192,38 +215,42 @@ class _HomeScreenState extends State<HomeScreen> {
                   loading
                       ? const LinearProgressIndicator()
                       : SizedBox(
-                    height: 300,
-                    child: ListView.builder(
-                      shrinkWrap: true,
-                      scrollDirection: Axis.horizontal,
-                      itemCount: featured.length,
-                      itemBuilder: (context, index) {
-                        final product = featured[index];
-                        return SizedBox(
-                          width: 180,
-                          child: ProductCard(
-                            title: product.name,
-                            price: '\$${product.price}',
-                            imageUrl:
-                                '$bucketUrl/product_images/${product.image}',
-                            onSelect: () {
-                              Navigator.push(context,
-                                  MaterialPageRoute(builder: (context) {
-                                return ProductView(id: product.id);
-                              }));
+                          height: 300,
+                          child: ListView.builder(
+                            shrinkWrap: true,
+                            scrollDirection: Axis.horizontal,
+                            itemCount: featured.length,
+                            itemBuilder: (context, index) {
+                              final product = featured[index];
+                              return SizedBox(
+                                width: 180,
+                                child: ProductCard(
+                                    title: product.name,
+                                    price: '\$${product.price}',
+                                    imageUrl:
+                                        '$bucketUrl/product_images/${product.image}',
+                                    onSelect: () {
+                                      Navigator.push(context,
+                                          MaterialPageRoute(builder: (context) {
+                                        return ProductView(id: product.id);
+                                      }));
+                                    },
+                                    onAdd: () {
+                                      context
+                                          .read<AppBloc>()
+                                          .add(CartAdd(product: product));
+                                    },
+                                    onLike: () {
+                                      context
+                                          .read<AppBloc>()
+                                          .add(FavouriteAdd(product: product));
+                                    },
+                                    isFavourite:
+                                        state.favourites.contains(product)),
+                              );
                             },
-                            onAdd: () {
-                              context.read<AppBloc>().add(CartAdd(product: product));
-                            },
-                            onLike: () {
-                              context.read<AppBloc>().add(FavouriteAdd(product: product));
-                            },
-                            isFavourite: state.favourites.contains(product)
                           ),
-                        );
-                      },
-                    ),
-                  ),
+                        ),
 
                   const SizedBox(height: 16),
 
@@ -251,8 +278,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   //   ),
                 ],
               ),
-              bottomNavigationBar: const AppBottomBar()
-          );
+              bottomNavigationBar: const AppBottomBar());
         },
       ),
     );
