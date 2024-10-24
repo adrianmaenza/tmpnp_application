@@ -54,161 +54,167 @@ class _CategoryViewState extends State<CategoryView> {
       // body
       body: BlocProvider(
         create: (context) => AppBloc(),
-        child: Padding(
-          padding: const EdgeInsets.all(16),
-          child: loading
-              ? const LinearProgressIndicator()
-              : Column(
-                  children: [
-                    // search bar
-                    TextField(
-                      decoration: InputDecoration(
-                          hintText: 'Search products',
-                          prefixIcon: const Icon(Icons.search),
-                          enabledBorder: OutlineInputBorder(
-                            borderRadius:
-                                const BorderRadius.all(Radius.circular(30)),
-                            borderSide: BorderSide(color: Colors.grey.shade300),
-                          ),
-                          filled: true,
-                          fillColor: Colors.grey.shade300),
-                    ),
-
-                    // grid of products
-                    const SizedBox(height: 20),
-
-                    // Filter and sorting options
-                    Row(
-                      children: [
-                        Expanded(
-                          child: OutlinedButton(
-                              onPressed: () {
-                                showModalBottomSheet(
-                                    context: context,
-                                    builder: (BuildContext context) {
-                                      return SizedBox(
-                                        width: double.infinity,
-                                        child: Column(
-                                          children: [
-                                            const SizedBox(height: 10),
-
-                                            // Drag indicator
-                                            Container(
-                                              width: 50,
-                                              height: 5,
-                                              decoration: BoxDecoration(
-                                                color: Colors.grey[400],
-                                                borderRadius:
-                                                    BorderRadius.circular(10),
-                                              ),
-                                            ),
-
-                                            const SizedBox(
-                                              height: 20,
-                                            ),
-
-                                            // show sort/filter options
-                                          ],
-                                        ),
-                                      );
-                                    });
-                              },
-                              child: const Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Icon(
-                                    Icons.sort,
-                                    size: 18,
-                                  ),
-                                  Text("Sort")
-                                ],
-                              )),
+        child: BlocBuilder<AppBloc, AppState>(
+          builder: (context, state) {
+            return Padding(
+              padding: const EdgeInsets.all(16),
+              child: loading
+                  ? const LinearProgressIndicator()
+                  : Column(
+                children: [
+                  // search bar
+                  TextField(
+                    decoration: InputDecoration(
+                        hintText: 'Search products',
+                        prefixIcon: const Icon(Icons.search),
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius:
+                          const BorderRadius.all(Radius.circular(30)),
+                          borderSide: BorderSide(color: Colors.grey.shade300),
                         ),
-                        const SizedBox(
-                          width: 20,
-                        ),
-                        Expanded(
-                          child: OutlinedButton(
-                              onPressed: () {
-                                showModalBottomSheet(
-                                    context: context,
-                                    builder: (BuildContext context) {
-                                      return SizedBox(
-                                        width: double.infinity,
-                                        child: Column(
-                                          children: [
-                                            const SizedBox(height: 10),
+                        filled: true,
+                        fillColor: Colors.grey.shade300),
+                  ),
 
-                                            // Drag indicator
-                                            Container(
-                                              width: 50,
-                                              height: 5,
-                                              decoration: BoxDecoration(
-                                                color: Colors.grey[400],
-                                                borderRadius:
-                                                    BorderRadius.circular(10),
-                                              ),
+                  // grid of products
+                  const SizedBox(height: 20),
+
+                  // Filter and sorting options
+                  Row(
+                    children: [
+                      Expanded(
+                        child: OutlinedButton(
+                            onPressed: () {
+                              showModalBottomSheet(
+                                  context: context,
+                                  builder: (BuildContext context) {
+                                    return SizedBox(
+                                      width: double.infinity,
+                                      child: Column(
+                                        children: [
+                                          const SizedBox(height: 10),
+
+                                          // Drag indicator
+                                          Container(
+                                            width: 50,
+                                            height: 5,
+                                            decoration: BoxDecoration(
+                                              color: Colors.grey[400],
+                                              borderRadius:
+                                              BorderRadius.circular(10),
                                             ),
+                                          ),
 
-                                            const SizedBox(
-                                              height: 20,
-                                            ),
+                                          const SizedBox(
+                                            height: 20,
+                                          ),
 
-                                            // show sort/filter options
-                                          ],
-                                        ),
-                                      );
-                                    });
-                              },
-                              child: const Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Icon(
-                                    Icons.filter_alt_outlined,
-                                    size: 18,
-                                  ),
-                                  Text("Filter")
-                                ],
-                              )),
-                        ),
-                      ],
-                    ),
-
-                    const SizedBox(height: 20),
-
-                    Expanded(
-                      child: GridView.builder(
-                        shrinkWrap: true,
-                        itemCount: products.length,
-                        itemBuilder: (context, index) {
-                          final product = products[index];
-                          return ProductCard(
-                            title: product.name,
-                            price: '\$${product.price}',
-                            imageUrl: product.image != null
-                                ? '$bucketUrl/product_images/${product.image}'
-                                : 'https://placehold.co/100x100/png',
-                            onSelect: () {
-                              Navigator.push(context,
-                                  MaterialPageRoute(builder: (context) {
-                                return ProductView(id: product.id);
-                              }));
+                                          // show sort/filter options
+                                        ],
+                                      ),
+                                    );
+                                  });
                             },
-                            onAdd: () => context
-                                .read<AppBloc>()
-                                .add(CartAdd(product: product)),
-                          );
-                        },
-                        gridDelegate:
-                            const SliverGridDelegateWithFixedCrossAxisCount(
-                                crossAxisCount: 2,
-                                crossAxisSpacing: 5.0,
-                                mainAxisSpacing: 5.0,
-                                childAspectRatio: 3 / 5),
+                            child: const Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Icon(
+                                  Icons.sort,
+                                  size: 18,
+                                ),
+                                Text("Sort")
+                              ],
+                            )),
                       ),
+                      const SizedBox(
+                        width: 20,
+                      ),
+                      Expanded(
+                        child: OutlinedButton(
+                            onPressed: () {
+                              showModalBottomSheet(
+                                  context: context,
+                                  builder: (BuildContext context) {
+                                    return SizedBox(
+                                      width: double.infinity,
+                                      child: Column(
+                                        children: [
+                                          const SizedBox(height: 10),
+
+                                          // Drag indicator
+                                          Container(
+                                            width: 50,
+                                            height: 5,
+                                            decoration: BoxDecoration(
+                                              color: Colors.grey[400],
+                                              borderRadius:
+                                              BorderRadius.circular(10),
+                                            ),
+                                          ),
+
+                                          const SizedBox(
+                                            height: 20,
+                                          ),
+
+                                          // show sort/filter options
+                                        ],
+                                      ),
+                                    );
+                                  });
+                            },
+                            child: const Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Icon(
+                                  Icons.filter_alt_outlined,
+                                  size: 18,
+                                ),
+                                Text("Filter")
+                              ],
+                            )),
+                      ),
+                    ],
+                  ),
+
+                  const SizedBox(height: 20),
+
+                  Expanded(
+                    child: GridView.builder(
+                      shrinkWrap: true,
+                      itemCount: products.length,
+                      itemBuilder: (context, index) {
+                        final product = products[index];
+                        return ProductCard(
+                          title: product.name,
+                          price: '\$${product.price}',
+                          imageUrl: product.image != null
+                              ? '$bucketUrl/product_images/${product.image}'
+                              : 'https://placehold.co/100x100/png',
+                          onSelect: () {
+                            Navigator.push(context,
+                                MaterialPageRoute(builder: (context) {
+                                  return ProductView(id: product.id);
+                                }));
+                          },
+                          onAdd: () =>
+                              context
+                                  .read<AppBloc>()
+                                  .add(CartAdd(product: product)),
+                          isFavourite: state.favourites.contains(product),
+                        );
+                      },
+                      gridDelegate:
+                      const SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 2,
+                          crossAxisSpacing: 5.0,
+                          mainAxisSpacing: 5.0,
+                          childAspectRatio: 3 / 5),
                     ),
-                  ],
-                ),
+                  ),
+                ],
+              ),
+            );
+          },
         ),
       ),
     );

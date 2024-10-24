@@ -9,6 +9,7 @@ class ProductCard extends StatelessWidget {
   final VoidCallback onSelect;
   final VoidCallback? onAdd;
   final VoidCallback? onLike;
+  final bool isFavourite;
 
   const ProductCard(
       {
@@ -18,7 +19,8 @@ class ProductCard extends StatelessWidget {
         required this.imageUrl,
         required this.onSelect,
         this.onAdd,
-        this.onLike
+        this.onLike,
+        required this.isFavourite
       });
 
   @override
@@ -33,9 +35,10 @@ class ProductCard extends StatelessWidget {
               children: [
                 IconButton(
                     onPressed: onLike,
-                    icon: const Icon(
-                      Icons.favorite_border,
+                    icon: Icon(
+                      isFavourite ? Icons.favorite : Icons.favorite_border,
                       size: 16,
+                      color: isFavourite ? Colors.red : const Color(primaryColor),
                     )),
                 const Spacer(),
                 IconButton(

@@ -218,6 +218,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             onLike: () {
                               context.read<AppBloc>().add(FavouriteAdd(product: product));
                             },
+                            isFavourite: state.favourites.contains(product)
                           ),
                         );
                       },

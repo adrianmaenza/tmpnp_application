@@ -12,7 +12,7 @@ class AppBloc extends HydratedBloc<AppEvent, AppState> {
       (event, emit) {
         // add a product to cart
         List<Product> curr = [...state.cart];
-        curr.add(event.product);
+        if (!curr.contains(event.product)) curr.add(event.product);
 
         emit(state.copyWith(cart: curr));
       },
@@ -33,7 +33,8 @@ class AppBloc extends HydratedBloc<AppEvent, AppState> {
       (event, emit) {
         // add a product to cart
         List<Product> curr = [...state.favourites];
-        curr.add(event.product);
+
+        if (!curr.contains(event.product)) curr.add(event.product);
 
         emit(state.copyWith(favourites: curr));
       },
