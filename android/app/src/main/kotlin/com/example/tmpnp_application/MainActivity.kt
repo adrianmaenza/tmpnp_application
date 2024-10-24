@@ -1,4 +1,4 @@
-package com.example.tmpnp_application
+package zw.co.tmpnponline.tmpnp_application
 
 import io.flutter.embedding.android.FlutterActivity
 
